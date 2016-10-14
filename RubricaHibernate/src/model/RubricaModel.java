@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-import dao.VoceDAO;
 
 @Entity
 @Table(name="RUBRICA")
@@ -31,8 +30,8 @@ public class RubricaModel {
 	@NotFound(action=NotFoundAction.IGNORE)
 	private Set<VoceModel> listaVoci = new HashSet<VoceModel>();
 	
-	public RubricaModel(long id_rubrica, String nome) {
-		this.setId_rubrica(id_rubrica);
+	public RubricaModel(String nome) {
+	
 		this.setNome(nome);
 	}
 
@@ -52,11 +51,6 @@ public class RubricaModel {
 		this.id_rubrica = id_rubrica;
 	}
 	
-	public void inserisciVoce(String nome, String cognome, String telefono){
-		
-		VoceDAO vDao = new VoceDAO();
-		vDao.aggiungiVoce(nome, cognome, telefono, this.id_rubrica);
-	}
 
 	public Set<VoceModel> getListaVoci() {
 		return listaVoci;

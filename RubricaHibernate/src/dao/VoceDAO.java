@@ -1,58 +1,44 @@
 package dao;
 
-import java.beans.PropertyVetoException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.LinkedList;
-import java.util.List;
-
-import rubrica.VoceModel;
-import rubrica.DataSource;
 
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import utility.HibernateUtility;
+import model.VoceModel;
 public class VoceDAO {
 	
-	
-
-	public boolean aggiungiVoce(String nome, String cognome, String telefono, long id_rubrica){
+	public boolean createVoce(VoceModel v){
 		
-		Connection con = null;
-		String sql = "INSERT INTO VOCE(NOME,COGNOME,TELEFONO,ID_RUBRICA) VALUES(?,?,?,?)";
-		PreparedStatement pst = null;
-		boolean res=false;
-	
-		try {
-		    con = DataSource.getInstance().getConnection();
-			pst = con.prepareStatement(sql);
-			pst.setString(1, nome);
-			pst.setString(2, cognome);
-			pst.setString(3, telefono);
-			pst.setLong(4, id_rubrica);
-			
-			int rs= pst.executeUpdate();
-			if(rs>0){
-				res=true;
-			}
-			
-		} catch (SQLException | IOException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally{
-			if (pst != null) try { pst.close(); } catch (SQLException e) {e.printStackTrace();}
-			if (con != null) try { con.close(); } catch (SQLException e) {e.printStackTrace();}
-		}
+		boolean res = false;
+		Session session=HibernateUtility.openSession();
+		Transaction tx=null;
+		
+		try{
+		       tx=session.getTransaction();
+		       tx.begin();
+		        
+		       session.persist(v);
+		        
+		       tx.commit(); 
+		       res = true;
+	            
+	     }catch(Exception ex){
+		       tx.rollback();
+
+	     }finally{
+		       session.close();
+	     }
 		
 		return res;
-	
 	}
 	
-	public VoceModel leggiVoceConId(long id_voce){
+	/*public VoceModel leggiVoceConId(long id_voce){
 		
 		VoceModel v = null;
 		Connection con = null;
-		String sql = "SELECT * FROM VOCE WHERE ID_VOCE=?";
+		String sql = "FROM VOCE WHERE ID_VOCE=?";
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 		
@@ -176,5 +162,5 @@ public class VoceDAO {
 		}
 		return voci;
 	}
-
+*/
 }

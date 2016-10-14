@@ -22,9 +22,8 @@ public class VoceModel {
 	private String cognome="";
 	private String telefono="";
 
-	public VoceModel(long id_voce, String nome, String cognome, String telefono) {
-		
-		this.setId_voce(id_voce);
+	public VoceModel(String nome, String cognome, String telefono) {
+	
 		this.setNome(nome);
 		this.setCognome(cognome);
 		this.setTelefono(telefono);

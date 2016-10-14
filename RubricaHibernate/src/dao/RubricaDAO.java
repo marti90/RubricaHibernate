@@ -2,13 +2,6 @@ package dao;
 
 import utility.HibernateUtility;
 
-import java.beans.PropertyVetoException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -105,7 +98,31 @@ public class RubricaDAO {
 		       tx=session.getTransaction();
 		       tx.begin();
 		        
-		       session.persist(r);
+		       //session.persist(r);
+		        
+		       tx.commit(); 
+		       res = true;
+	            
+	     }catch(Exception ex){
+		       tx.rollback();
+
+	     }finally{
+		       session.close();
+	     }
+		
+		return res;
+    }
+    
+    public boolean aggiornaRubrica(RubricaModel r){
+    	boolean res = false;
+		Session session=HibernateUtility.openSession();
+		Transaction tx=null;
+		
+		try{
+		       tx=session.getTransaction();
+		       tx.begin();
+		        
+		       session.update(r);
 		        
 		       tx.commit(); 
 		       res = true;
