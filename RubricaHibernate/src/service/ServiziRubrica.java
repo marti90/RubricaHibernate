@@ -31,6 +31,20 @@ public class ServiziRubrica {
 		
 		return res;
 	}
+	
+	public boolean aggiornaVoce(long id_voce, String nomeNuovo, String cognomeNuovo, String telNuovo){
+		boolean res = false;
+		
+		VoceModel v =vDao.leggiVoceConId(id_voce);
+		v.setNome(nomeNuovo);
+		v.setCognome(cognomeNuovo);
+		v.setTelefono(telNuovo);
+		vDao.aggiornaVoce(v);
+		
+		return res;
+	}
+	
+	
 
 
 }
