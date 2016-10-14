@@ -3,12 +3,17 @@ package model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import dao.VoceDAO;
 
@@ -22,7 +27,8 @@ public class RubricaModel {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id_rubrica;
 	
-	@OneToMany(mappedBy="rubrica")
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="rubrica",cascade=CascadeType.ALL)
+	@NotFound(action=NotFoundAction.IGNORE)
 	private Set<VoceModel> listaVoci = new HashSet<VoceModel>();
 	
 	public RubricaModel(long id_rubrica, String nome) {
