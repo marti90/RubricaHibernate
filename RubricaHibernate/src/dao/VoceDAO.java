@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import utility.HibernateUtility;
+
 import model.VoceModel;
 public class VoceDAO {
 	
@@ -34,43 +35,33 @@ public class VoceDAO {
 		return res;
 	}
 	
-	/*public VoceModel leggiVoceConId(long id_voce){
+	public VoceModel leggiVoceConId(long id_voce){
 		
 		VoceModel v = null;
-		Connection con = null;
-		String sql = "FROM VOCE WHERE ID_VOCE=?";
-		PreparedStatement pst = null;
-		ResultSet rs = null;
 		
-		try {
-			con = DataSource.getInstance().getConnection();
-			pst = con.prepareStatement(sql);
-			pst.setLong(1, id_voce);
-			
-			rs = pst.executeQuery();
-			
-			while(rs.next()){
-				long id_v = rs.getLong(1);
-				String nome = rs.getString(2);
-				String cognome = rs.getString(3);
-				String telefono = rs.getString(4);
-				long id_r = rs.getLong(5);
-				
-				v = new VoceModel(id_v,nome,cognome,telefono,id_r);
-			}
-			
-		} catch (SQLException | IOException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally{
-			if (rs != null) try { rs.close(); } catch (SQLException e) {e.printStackTrace();}
-			if (pst != null) try { pst.close(); } catch (SQLException e) {e.printStackTrace();}
-			if (con != null) try { con.close(); } catch (SQLException e) {e.printStackTrace();}
-		}
+		Session session=HibernateUtility.openSession();
+		Transaction tx=null;
+		
+		try{
+		       tx=session.getTransaction();
+		       tx.begin();
+		        
+		       v=session.get(VoceModel.class,  id_voce);
+		        
+		       tx.commit(); 
+		       
+	            
+	     }catch(Exception ex){
+		       tx.rollback();
+
+	     }finally{
+		       session.close();
+	     }
 		
 		return v;
 	}
 	
-	public boolean cancellaVoceConId(long id_voce){
+	/*public boolean cancellaVoceConId(long id_voce){
 		boolean res = false;
 		Connection con = null;
 		String sql = "DELETE FROM VOCE WHERE ID_VOCE=?";

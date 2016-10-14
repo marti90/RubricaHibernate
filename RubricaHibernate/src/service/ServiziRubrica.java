@@ -31,7 +31,6 @@ public class ServiziRubrica {
 		
 		return res;
 	}
-	
-	
+
 
 }
