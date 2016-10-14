@@ -30,6 +30,10 @@ public class RubricaModel {
 	@NotFound(action=NotFoundAction.IGNORE)
 	private Set<VoceModel> listaVoci = new HashSet<VoceModel>();
 	
+	public RubricaModel(){
+		
+	}
+	
 	public RubricaModel(String nome) {
 	
 		this.setNome(nome);

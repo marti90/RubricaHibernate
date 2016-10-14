@@ -21,6 +21,10 @@ public class VoceModel {
 	private String nome="";
 	private String cognome="";
 	private String telefono="";
+	
+	public VoceModel(){
+		
+	}
 
 	public VoceModel(String nome, String cognome, String telefono) {
 	

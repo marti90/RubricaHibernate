@@ -1,5 +1,7 @@
 package dao;
 
+
+
 import utility.HibernateUtility;
 
 import org.hibernate.Query;
@@ -35,6 +37,7 @@ public class RubricaDAO {
 		
 	}
 		
+
 	public RubricaModel readRubricaConNome(String nome){
 		
         RubricaModel r = null;
@@ -43,14 +46,13 @@ public class RubricaDAO {
 	
 		try{
 	        tx=session.getTransaction();
-	        tx.begin();
+            tx.begin();
 	        
-	        String sql="FROM RUBRICA WHERE NOME=: nomeInserito";
-			Query query = session.createQuery(sql);
-	        
-	        query.setString("nomeInserito", nome);
-	        r = (RubricaModel) query.uniqueResult();
-	        
+			Query query = session.createQuery("from RubricaModel where nome =: nomeInserito");
+			
+			query.setString("nomeInserito",nome);
+	        r =  (RubricaModel) query.uniqueResult();
+	       
 	        tx.commit(); 
             
 	    }catch(Exception ex){
@@ -59,8 +61,8 @@ public class RubricaDAO {
 	    }finally{
 	         session.close();
 	    }
-	    
-		return r;
+	    return r;
+		
 	}
 	
 	public boolean createRubrica(RubricaModel r){
